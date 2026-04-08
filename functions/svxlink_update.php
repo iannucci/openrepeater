@@ -187,6 +187,9 @@ $shellout = shell_exec('sudo /usr/sbin/orp_helper svxlink gpio_up');
 
 $shellout = shell_exec('sudo /usr/sbin/orp_helper svxlink restart');
 
+/* PERSIST DATABASE TO READ-ONLY ROOT SEED */
+$shellout = shell_exec('sudo /usr/local/bin/save-db');
+
 /* WHAT PAGE TO GO BACK TO */
 if (isset($_POST["return_url"])) {
 	// Return to page that sent here
