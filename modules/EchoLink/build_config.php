@@ -6,7 +6,7 @@
 */
 
 
-$options = unserialize($cur_mod['moduleOptions']);
+$options = !empty($cur_mod['moduleOptions']) ? unserialize($cur_mod['moduleOptions']) : [];
 
 // Add Linebreaks into Description
 $echolink_clean_desc = preg_replace('/\r\n?/', "\\n", trim($options['description']));

@@ -22,8 +22,9 @@ class Database {
 			$sql = 'SELECT * FROM "' . $table_name . '";';
 		}
 
-		// Get column names for table. 	
-		$column_results = $db->query('PRAGMA table_info("' . $table_name . '")');			
+		// Get column names for table.
+		$columns = [];
+		$column_results = $db->query('PRAGMA table_info("' . $table_name . '")');
 		while ($colArray = $column_results->fetchArray()) {
 			// Set Primary Key for parent array
 			if ($colArray['pk'] == 1) { $primary_key =  $colArray['name']; }
@@ -33,6 +34,7 @@ class Database {
 		$result = $db->query($sql) or die('Query failed');
 	
 		// Return all data as nested associative array
+		$nested_array = [];
 		while ($rowArray = $result->fetchArray()) {
 			$row_pk = $rowArray[$primary_key];
 			foreach($columns as $key => $value) {
@@ -48,6 +50,7 @@ class Database {
 		$result = $db->query($sql) or die('Unable to select key/value pair.');
 		
 		// Return key/value pairs as associative array
+		$select_array = [];
 		while ($rowArray = $result->fetchArray()) {
 			$key = $rowArray[$keyCol];
 			$select_array[$key] = $rowArray[$valueCol];

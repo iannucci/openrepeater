@@ -9,6 +9,11 @@ $Database = new Database();
 
 $versionNum = $Database->get_version();
 
+function createSalt(){
+	$string = md5(uniqid(rand(), true));
+	return substr($string, 0, 8);
+}
+
 $getCallSign = $Database->select_key_value('SELECT * FROM settings WHERE "keyID" = "callSign";', 'keyID', 'value');
 $callsign = $getCallSign['callSign'];
 
@@ -50,11 +55,6 @@ if (isset($_POST['action'])){
 
 		$resetHash = hash('sha256', $salt . hash('sha256', $password1));
 		$hash = hash('sha256', $password1);
-
-		function createSalt(){
-			$string = md5(uniqid(rand(), true));
-			return substr($string, 0, 8);
-		}
 
 		$salt = createSalt();
 		$hash = hash('sha256', $salt . $hash);

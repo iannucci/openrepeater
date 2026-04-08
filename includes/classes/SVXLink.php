@@ -388,22 +388,15 @@ class SVXLink {
 		}
 		$file_output = $this->orpFileHeader . $data;
 
-		switch ($filename) {
-		    case "svxlink.conf":
-				$filepath = '/etc/svxlink/';
-		        break;
-		    case "gpio.conf":
-				$filepath = '/etc/svxlink/';
-		        break;
-		    case "Logic.tcl":
-				$filepath = '/usr/share/svxlink/events.d/local/';
-		        break;
-		    case (strpos($filename, "Module") === 0): // Begins with Module
-				$filepath = '/etc/svxlink/svxlink.d/';
-		        break;
-		    case (strpos($filename, "ORP_") === 0): // Event beginning with ORP_
-				$filepath = '/usr/share/svxlink/events.d/';
-		        break;
+		$filepath = '/tmp/';
+		if ($filename === "svxlink.conf" || $filename === "gpio.conf") {
+			$filepath = '/etc/svxlink/';
+		} elseif ($filename === "Logic.tcl") {
+			$filepath = '/usr/share/svxlink/events.d/local/';
+		} elseif (strpos($filename, "Module") === 0) {
+			$filepath = '/etc/svxlink/svxlink.d/';
+		} elseif (strpos($filename, "ORP_") === 0) {
+			$filepath = '/usr/share/svxlink/events.d/';
 		}
 
 		$full_file_path = $filepath . $filename;
@@ -422,7 +415,7 @@ class SVXLink {
 	###############################################
 
 	public function delete_custom_evnets() {
-		$files = glob('/usr/share/svxlink/events.d/' . 'ORP_*');
+		$files = glob('/usr/share/svxlink/events.d/' . 'ORP_*') ?: [];
 		array_map('unlink', $files);
 	}
 

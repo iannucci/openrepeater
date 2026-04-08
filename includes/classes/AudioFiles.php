@@ -19,6 +19,7 @@ class AudioFiles {
 		$url = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $this->sound_dir . $type . '/';
 		
 		// Read Files into 1 dimensional array
+		$fileList = [];
 		if ($handle = opendir($this->path . $type)) {
 				while (false !== ($file = readdir($handle))) {
 				if ('.' === $file) continue;
@@ -29,18 +30,21 @@ class AudioFiles {
 		}
 	
 		// Sort and reindex array
-		natsort($fileList);
+		if (!empty($fileList)) {
+			natsort($fileList);
+		}
 		$fileList = array_values($fileList);
 	
 		// Write into multidimensional array with clean file labels
-		foreach($fileList as $fileName) {	
+		$filesArray = [];
+		foreach($fileList as $fileName) {
 			$fileLabel = str_replace("_"," ",$fileName); //replace underscores with spaces for file labels
 			$fileLabel = preg_replace('/\\.[^.\\s]{2,5}$/', '', $fileLabel); //remove extention
 			$fileURL = $url . $fileName;
 			$filePath = $this->path . $type . '/' . $fileName;
-			$filesArray[] = array('fileName' => $fileName, 'fileLabel' => $fileLabel, 'fileURL' => $fileURL, 'filePath' => $filePath);			
+			$filesArray[] = array('fileName' => $fileName, 'fileLabel' => $fileLabel, 'fileURL' => $fileURL, 'filePath' => $filePath);
 		}
-	
+
 		return $filesArray;
 
 	}
@@ -53,6 +57,8 @@ class AudioFiles {
 
 	public function display_audio_files($type, $selected, $settingName) {
 
+		$filesArray = [];
+		$html_modal = '';
 		$audioLib = $this->get_audio_files($type);
 		
 		if ($audioLib) {

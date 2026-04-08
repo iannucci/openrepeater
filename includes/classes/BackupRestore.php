@@ -435,6 +435,7 @@ class BackupRestore {
 		$baseURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $this->backupPath;
 		
 		// Read Files into 1 dimensional array
+		$fileList = [];
 		if ($handle = opendir($this->backupPath)) {
 				while (false !== ($file = readdir($handle))) {
 				if ('.' === $file) continue;

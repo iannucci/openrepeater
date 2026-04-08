@@ -45,7 +45,7 @@ class Modules {
 	public function get_module_settings($id) {
 		$sql = 'SELECT moduleOptions FROM "modules" WHERE "moduleKey" = ' . $id;
 		$module = $this->Database->select_single($sql);
-		$moduleOptionsArray = unserialize($module['moduleOptions']);
+		$moduleOptionsArray = !empty($module['moduleOptions']) ? unserialize($module['moduleOptions']) : [];
 		return $moduleOptionsArray;	
 	}
 
@@ -861,8 +861,9 @@ class Modules {
 	###############################################
 
 	private function read_dir($path) {
-	
+
 		// Read Files into 1 dimensional array
+		$fileList = [];
 		if ($handle = opendir($path)) {
 				while (false !== ($file = readdir($handle))) {
 				if ('.' === $file) continue;
