@@ -3,6 +3,7 @@ $board_definitions = array();
 
 #################################################################################
 # ICS Controllers - Pi Repeater 2X
+# GPIO numbers for Bookworm Pi 4: native GPIO base=512, MCP23017 base=578
 #################################################################################
 
 $board_definitions[] = [
@@ -13,9 +14,9 @@ $board_definitions[] = [
 		1 => [
 			'portLabel' => 'Port 1',
 			'rxMode' => 'gpio',
-			'rxGPIO' => '26',
+			'rxGPIO' => '538',
 			'rxGPIO_active' => 'low',
-			'txGPIO' => '498',
+			'txGPIO' => '588',
 			'txGPIO_active' => 'high',
 			'rxAudioDev' => 'alsa:plughw:0|1',
 			'txAudioDev' => 'alsa:plughw:0|1',
@@ -23,9 +24,9 @@ $board_definitions[] = [
 		2 => [
 			'portLabel' => 'Port 2',
 			'rxMode' => 'gpio',
-			'rxGPIO' => '23',
+			'rxGPIO' => '535',
 			'rxGPIO_active' => 'low',
-			'txGPIO' => '499',
+			'txGPIO' => '589',
 			'txGPIO_active' => 'high',
 			'rxAudioDev' => 'alsa:plughw:0|0',
 			'txAudioDev' => 'alsa:plughw:0|0',
@@ -52,6 +53,7 @@ CTCSS2_ENC: 27 low
 
 #################################################################################
 # ICS Controllers - Pi Repeater 1X
+# GPIO numbers for Bookworm Pi 4: native GPIO base=512, MCP23017 base=578
 #################################################################################
 
 $board_definitions[] = [
@@ -62,9 +64,9 @@ $board_definitions[] = [
 		1 => [
 			'portLabel' => 'Port 1',
 			'rxMode' => 'gpio',
-			'rxGPIO' => '26',
+			'rxGPIO' => '538',
 			'rxGPIO_active' => 'low',
-			'txGPIO' => '498',
+			'txGPIO' => '588',
 			'txGPIO_active' => 'high',
 			'rxAudioDev' => 'alsa:plughw:0|1',
 			'txAudioDev' => 'alsa:plughw:0|1',
@@ -206,6 +208,7 @@ $board_definitions[] = [
 
 #################################################################################
 # ICS Controllers - Pi Repeater 2X PROTOTYPE
+# GPIO numbers for Bookworm Pi 4: native GPIO base=512, MCP23017 base=578
 #################################################################################
 
 $board_definitions[] = [
@@ -216,9 +219,9 @@ $board_definitions[] = [
 		1 => [
 			'portLabel' => 'Port 1',
 			'rxMode' => 'gpio',
-			'rxGPIO' => '26',
+			'rxGPIO' => '538',
 			'rxGPIO_active' => 'low',
-			'txGPIO' => '498',
+			'txGPIO' => '588',
 			'txGPIO_active' => 'low',
 			'rxAudioDev' => 'alsa:plughw:0|1',
 			'txAudioDev' => 'alsa:plughw:0|1',
@@ -226,9 +229,9 @@ $board_definitions[] = [
 		2 => [
 			'portLabel' => 'Port 2',
 			'rxMode' => 'gpio',
-			'rxGPIO' => '23',
+			'rxGPIO' => '535',
 			'rxGPIO_active' => 'low',
-			'txGPIO' => '499',
+			'txGPIO' => '589',
 			'txGPIO_active' => 'low',
 			'rxAudioDev' => 'alsa:plughw:0|0',
 			'txAudioDev' => 'alsa:plughw:0|0',
