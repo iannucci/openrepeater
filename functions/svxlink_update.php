@@ -37,6 +37,9 @@ $classSVXLink = new SVXLink($settings, $ports, $module);
 $classSVXLinkTCL = new SVXLink_TCL($settings);
 $classSVXLinkGPIO = new SVXLink_GPIO($gpio);
 
+/* REMOUNT ROOT READ-WRITE FOR CONFIG FILE WRITES */
+shell_exec('sudo /bin/mount -o remount,rw /');
+
 /* ---------------------------------------------------------- */
 /* --- LOGIC SETTINGS --- */
 
@@ -187,8 +190,10 @@ $shellout = shell_exec('sudo /usr/sbin/orp_helper svxlink gpio_up');
 
 $shellout = shell_exec('sudo /usr/sbin/orp_helper svxlink restart');
 
-/* PERSIST DATABASE TO READ-ONLY ROOT SEED */
-$shellout = shell_exec('sudo /usr/local/bin/save-db');
+/* PERSIST DATABASE TO READ-ONLY ROOT SEED AND REMOUNT READ-ONLY */
+shell_exec('sudo /bin/cp /var/lib/openrepeater/db/openrepeater.db /opt/openrepeater/openrepeater.db.seed');
+shell_exec('sudo /bin/sync');
+shell_exec('sudo /bin/mount -o remount,ro /');
 
 /* WHAT PAGE TO GO BACK TO */
 if (isset($_POST["return_url"])) {
