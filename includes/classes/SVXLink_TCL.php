@@ -138,6 +138,7 @@ class SVXLink_TCL {
 		    global mycall;
 		    global loaded_modules;
 		    global active_module;
+		    global report_ctcss;
 		    variable CFG_TYPE;
 		    playSilence 200;
 		';
@@ -162,26 +163,22 @@ class SVXLink_TCL {
 				if ($this->settingsArray['ID_Long_AppendTime'] == 'True') {
 					$proc_content .= $this->buildTime();
 				}
-				if ($this->settingsArray['ID_Long_AppendTone'] == 'True') {
-					// FUTURE - Option to announce CTCSS / PL Tone;
-				}
+				$proc_content .= $this->buildPlAnnouncement();
 				if ($this->settingsArray['ID_Long_AppendMorse'] == 'True') {
 					$proc_content .= $this->buildMorseID();
-				}		
+				}
 		        break;
-		
+
 		    case "custom":
 		    	// Long ID - CUSTOM ID
 				$proc_content .= $this->buildCustomID($this->settingsArray['ID_Long_CustomFile']);
 				if ($this->settingsArray['ID_Long_AppendTime'] == 'True') {
 					$proc_content .= $this->buildTime();
 				}
-				if ($this->settingsArray['ID_Long_AppendTone'] == 'True') {
-					// FUTURE - Option to announce CTCSS / PL Tone;
-				}
+				$proc_content .= $this->buildPlAnnouncement();
 				if ($this->settingsArray['ID_Long_AppendMorse'] == 'True') {
 					$proc_content .= $this->buildMorseID();
-				}		
+				}
 		        break;
 		}
 
@@ -238,6 +235,20 @@ class SVXLink_TCL {
 		    playSilence 500;
 		';
 		return $time;
+	}
+
+	private function buildPlAnnouncement() {
+		# Emits "PL is <freq> Hz" when REPORT_CTCSS is set in svxlink.conf.
+		# Mirrors stock SVXLink Logic.tcl; gated at runtime so it is a no-op
+		# when REPORT_CTCSS is unset or zero.
+		$plAnnouncement = '
+		    if {$report_ctcss > 0} {
+		        playMsg "Core" "pl_is";
+		        playFrequency $report_ctcss;
+		        playSilence 500;
+		    }
+		';
+		return $plAnnouncement;
 	}
 
 
