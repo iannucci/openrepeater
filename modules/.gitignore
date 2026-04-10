@@ -15,3 +15,7 @@
 # But...EchoLink Module
 !EchoLink/
 !EchoLink/**
+
+# But...RSSI Module (Bob Iannucci, W6EI; vendored from bitbucket.org/w6ei/openrepeater_module_rssi)
+!RSSI/
+!RSSI/**

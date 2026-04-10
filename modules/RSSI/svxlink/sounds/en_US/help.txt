@@ -1,0 +1,4 @@
+When the are ess ess eye module is active, it provides a received signal strength
+indication at the end of each of your transmissions in two forms.  First, ess units
+are reported by voice.  Second, dee bee below zero dee bee em is reported in 
+dee tee em eff codes, preceded by a star and followed with a pound sign.
