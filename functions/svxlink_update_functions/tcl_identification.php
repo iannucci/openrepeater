@@ -50,20 +50,6 @@ function buildTime() {
 	return $time;
 }
 
-function buildPlAnnouncement() {
-	# Emits "PL is <freq> Hz" when REPORT_CTCSS is set in svxlink.conf.
-	# Mirrors the stock SVXLink Logic.tcl behavior; gated at runtime so it
-	# is a no-op when REPORT_CTCSS is unset or zero.
-	$plAnnouncement = '
-			if {$report_ctcss > 0} {
-				playMsg "Core" "pl_is";
-				playFrequency $report_ctcss;
-				playSilence 500;
-			}
-	';
-	return $plAnnouncement;
-}
-
 /* ---------------------------------------------------------- */
 /* SHORT ID OVERRIDES */
 
@@ -123,7 +109,6 @@ $tclLogicNameSpace .= '
 			global mycall;
 			global loaded_modules;
 			global active_module;
-			global report_ctcss;
 			variable CFG_TYPE;
 			playSilence 200;
 			';
@@ -146,10 +131,12 @@ switch ($settings['ID_Long_Mode']) {
 		if ($settings['ID_Long_AppendTime'] == 'True') {
 			$longIdString .= buildTime();
 		}
-		$longIdString .= buildPlAnnouncement();
+		if ($settings['ID_Long_AppendTone'] == 'True') {
+			// FUTURE - Option to announce CTCSS / PL Tone;
+		}
 		if ($settings['ID_Long_AppendMorse'] == 'True') {
 			$longIdString .= buildMorseID($settings['ID_Morse_Amplitude'], $settings['ID_Morse_WPM'], $settings['ID_Morse_Pitch'], $settings['ID_Morse_Suffix']);
-		}
+		}		
         break;
 
     case "custom":
@@ -158,10 +145,12 @@ switch ($settings['ID_Long_Mode']) {
 		if ($settings['ID_Long_AppendTime'] == 'True') {
 			$longIdString .= buildTime();
 		}
-		$longIdString .= buildPlAnnouncement();
+		if ($settings['ID_Long_AppendTone'] == 'True') {
+			// FUTURE - Option to announce CTCSS / PL Tone;
+		}
 		if ($settings['ID_Long_AppendMorse'] == 'True') {
 			$longIdString .= buildMorseID($settings['ID_Morse_Amplitude'], $settings['ID_Morse_WPM'], $settings['ID_Morse_Pitch'], $settings['ID_Morse_Suffix']);
-		}
+		}		
         break;
 }
 
