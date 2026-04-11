@@ -90,8 +90,13 @@ class SVXLink {
 
 	public function build_global() {
 		$logicsList = implode(",", $this->logics); // Convert array to CSV.
-		
-		$global_array['MODULE_PATH'] = '/usr/lib/arm-linux-gnueabihf/svxlink';
+
+		// MODULE_PATH intentionally omitted. svxlink falls back to its
+		// compiled-in SVX_MODULE_INSTALL_DIR default, which is the
+		// architecture-correct libdir (e.g., /usr/lib/aarch64-linux-gnu/svxlink
+		// on arm64, /usr/lib/arm-linux-gnueabihf/svxlink on 32-bit ARM).
+		// Previously this was hardcoded to the 32-bit ARM triplet, which
+		// caused all module loads to fail on aarch64 Bookworm targets.
 		$global_array['LOGICS'] = $logicsList;
 		$global_array['CFG_DIR'] = 'svxlink.d';
 		$global_array['TIMESTAMP_FORMAT'] = '"%c"';
