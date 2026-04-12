@@ -19,6 +19,13 @@ $module_config_array['Module'.$cur_mod['svxlinkName']] = [
 	'SERVERS' => $options['server'],
 	'CALLSIGN' => $options['callSign'],
 	'PASSWORD' => $options['password'],
+	// Accept audio from any AMPRNet (44.0.0.0/8) source even when the
+	// directory-registered peer IP does not match the audio source IP.
+	// The EchoLink proxy farm that serves AMPRNet clients load-balances
+	// across adjacent IPs (e.g. 44.32.128.51, 44.40.160.5, 44.40.160.6),
+	// and svxlink 24.02's strict "station->ip() != ip" check would
+	// otherwise reject those relayed audio packets and drop the QSO.
+	'ALLOW_IP' => '44.0.0.0/8',
 	'SYSOPNAME' => $options['sysop'],
 	'LOCATION' => '[ORP] '.$options['location'],
 	'MAX_QSOS' => $options['max_qsos'],
