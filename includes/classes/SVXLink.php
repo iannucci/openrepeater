@@ -258,6 +258,13 @@ class SVXLink {
 			'OPEN_ON_SQL' => '1',
 			'OPEN_SQL_FLANK' => 'OPEN',
 			'IDLE_SOUND_INTERVAL' => '0',
+			// Bench diagnostics: PTY for CLI DTMF injection. svxlink creates
+			// the PTY slave end at this path; writing DTMF chars to it is
+			// equivalent to receiving them over the air. Required so the
+			// bench (no physical DTMF input) can activate ModuleEchoLink
+			// etc. for remote testing. Safe in production — nobody but
+			// root/svxlink can write the PTY.
+			'DTMF_CTRL_PTY' => '/tmp/svxlink-cmd',
 		];
 		
 		if ($this->settingsArray['repeaterDTMF_disable'] == 'True') {
@@ -328,6 +335,13 @@ class SVXLink {
 			'OPEN_ON_SQL' => '1',
 			'OPEN_SQL_FLANK' => 'OPEN',
 			'IDLE_SOUND_INTERVAL' => '0',
+			// Bench diagnostics: PTY for CLI DTMF injection. svxlink creates
+			// the PTY slave end at this path; writing DTMF chars to it is
+			// equivalent to receiving them over the air. Required so the
+			// bench (no physical DTMF input) can activate ModuleEchoLink
+			// etc. for remote testing. Safe in production — nobody but
+			// root/svxlink can write the PTY.
+			'DTMF_CTRL_PTY' => '/tmp/svxlink-cmd',
 		];
 		
 		/*
