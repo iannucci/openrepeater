@@ -1,4 +1,20 @@
 <?php
+/**
+ * Convert legacy linear Morse-amplitude (1..1000) to dBFS for svxlink CW.tcl.
+ * Modern svxlink emits a deprecation warning on positive amplitudes (legacy
+ * linear scale). Negative dBFS values pass through. Smart-convert: positive
+ * inputs get converted; non-positive (already dBFS or 0) pass through unchanged.
+ */
+if (!function_exists('orp_cw_amp_dbfs')) {
+    function orp_cw_amp_dbfs($v) {
+        if (is_numeric($v) && $v > 0) {
+            return number_format(20.0 * log10($v / 1000.0), 2, '.', '');
+        }
+        return $v;
+    }
+}
+?>
+<?php
 #####################################################################################################
 # SXVLink GPIO Config Class
 #####################################################################################################
@@ -199,7 +215,7 @@ class SVXLink_TCL {
 
 	private function buildMorseID() {
 		$morseID = '
-		    CW::setAmplitude ' . $this->settingsArray['ID_Morse_Amplitude'] . '
+		    CW::setAmplitude ' . orp_cw_amp_dbfs($this->settingsArray['ID_Morse_Amplitude']) . '
 		    CW::setWpm ' . $this->settingsArray['ID_Morse_WPM'] . '
 		    CW::setPitch ' . $this->settingsArray['ID_Morse_Pitch'] . '
 		    CW::play $mycall' . $this->settingsArray['ID_Morse_Suffix'] . '

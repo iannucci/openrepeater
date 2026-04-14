@@ -12,7 +12,7 @@
 
 		<a href="dashboard.php" class="btn" title="Administer OpenRepeater">LOGIN</a>
 
-		<p class="footer_text">Powered by <a href="http://www.svxlink.org/" target="_blank">SvxLink</a>. For more information on this project visit <a href="http://openrepeater.com" target="_blank">OpenRepeater.com</a></p>
+		<p class="footer_text">Powered by <a href="http://www.svxlink.org/" target="_blank">SvxLink</a>. For more information on this project visit <a href="https://github.com/iannucci/openrepeater" target="_blank">iannucci/openrepeater</a><?php require_once($_SERVER['DOCUMENT_ROOT'].'/includes/orp_git_sha.php'); echo orp_git_sha(); ?></p>
 
 	</div>
 </body>

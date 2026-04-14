@@ -1,4 +1,7 @@
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'].'/includes/orp_git_sha.php');
+
+
 session_start();
 
 ################################################################################
@@ -153,7 +156,7 @@ if ((!isset($_SESSION['username'])) || (!isset($_SESSION['userID']))){
 			</form>
 		</div><!--/span-->
 
-		<center><p><a href="http://openrepeater.com" target="_blank">OpenRepeater</a> ver: ' . $versionNum . '</p></center>
+		<center><p><a href="https://github.com/iannucci/openrepeater" target="_blank">iannucci/openrepeater</a>' . orp_git_sha() . ' ver: ' . $versionNum . '</p></center>
 
 	</div><!--/row-->
 	';
@@ -225,7 +228,7 @@ if (isset($_GET['action'])){
 			</form>
 		</div><!--/span-->
 
-		<center><p><a href="http://openrepeater.com" target="_blank">OpenRepeater</a> ver: ' . $versionNum . '</p></center>
+		<center><p><a href="https://github.com/iannucci/openrepeater" target="_blank">iannucci/openrepeater</a>' . orp_git_sha() . ' ver: ' . $versionNum . '</p></center>
 
 	</div><!--/row-->
 	';

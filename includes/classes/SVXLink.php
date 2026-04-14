@@ -187,7 +187,7 @@ class SVXLink {
 		if ($this->settingsArray['txTone']) {
 			$tx_array['TX_Port'.$curPort] += [
 				'CTCSS_FQ' => $this->settingsArray['txTone'],
-				'CTCSS_LEVEL' => '9',
+				'CTCSS_LEVEL' => '-21',
 			];
 		}
 	

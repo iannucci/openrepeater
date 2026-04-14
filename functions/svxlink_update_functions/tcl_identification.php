@@ -1,4 +1,10 @@
 <?php
+
+if (!function_exists('orp_cw_amp_dbfs')) {
+    function orp_cw_amp_dbfs($v) {
+        return (is_numeric($v) && $v > 0) ? number_format(20.0*log10($v/1000.0),2,'.','') : $v;
+    }
+}
 # Copyright ©2017 - Aaron Crawford, N3MBH - info(at)openrepeater(dot)com
 # Licended under GPL v2 or later
 
@@ -9,9 +15,9 @@ $idPath = "/var/lib/openrepeater/sounds/identification/";
 /* ---------------------------------------------------------- */
 /* ID FUNCTIONS */
 
-function buildMorseID($amplitue, $wpm, $pitch,  $suffix) {
+function buildMorseID($amplitude, $wpm, $pitch,  $suffix) {
 	$morseID = '
-			CW::setAmplitude '.$amplitue.'
+			CW::setAmplitude '.orp_cw_amp_dbfs($amplitude).'
 			CW::setWpm '.$wpm.'
 			CW::setPitch '.$pitch.'
 			CW::play $mycall'.$suffix.'
