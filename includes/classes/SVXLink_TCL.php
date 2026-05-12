@@ -57,6 +57,25 @@ class SVXLink_TCL {
 		$replace_beep = '';
 		$new_file = preg_replace( $search_beep, $replace_beep, $new_file );
 
+		# Strip the voice-ID block from repeater_up.
+		#
+		# Upstream RepeaterLogic.tcl plays "spellWord $mycall" + "repeater"
+		# whenever the repeater is activated on certain reasons (DTMF,
+		# MODULE, AUDIO, TONE — anything except SQL_OPEN / CTCSS_OPEN /
+		# SQL_RPT_REOPEN), throttled by min_time_between_ident (default
+		# 120 s). On busy repeaters this fires a voice ID every couple of
+		# minutes during an active QSO, which the W6EI operator finds
+		# annoying — they want only the scheduled short (CW, every 10 min)
+		# and long (voice, every 60 min) IDs. Period.
+		#
+		# Strip the entire `if {($reason != "SQL_OPEN") ...}` block out of
+		# repeater_up. What remains: `set repeater_is_up 1;` — exactly
+		# matching install/tcl/ORP_RepeaterLogic_Port1.tcl's simple form.
+		$search_repeater_up_id =
+			'/^  if \{\(\$reason != "SQL_OPEN"\) && \(\$reason != "CTCSS_OPEN"\) &&\s+\(\$reason != "SQL_RPT_REOPEN"\)\} \{[\s\S]+?^  \}\n/m';
+		$replace_repeater_up_id = '';
+		$new_file = preg_replace( $search_repeater_up_id, $replace_repeater_up_id, $new_file );
+
 		return $new_file;
 	}
 
