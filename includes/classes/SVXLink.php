@@ -189,6 +189,27 @@ class SVXLink {
 				'CTCSS_FQ' => $this->settingsArray['txTone'],
 				'CTCSS_LEVEL' => '-21',
 			];
+		} else {
+			# ORP buzz suppression dither.
+			#
+			# When svxlink is NOT generating a real PL tone (radio
+			# generates its own CTCSS, or none at all), we still
+			# configure the SineGenerator with a 7.5 kHz / -60 dBFS
+			# signal. This is a continuous low-level injection that
+			# keeps the Fe-Pi codec's sigma-delta DAC modulator out
+			# of the zero-input limit cycle that's audible as a
+			# ~290 Hz buzz during TX silences. The 7.5 kHz tone is
+			# filtered to inaudibility by the radio's TX voice-band
+			# low-pass (~3 kHz corner on narrowband FM); the codec
+			# sees the digital signal at the modulator's input.
+			#
+			# Confirmed on W6EI prod 2026-05-11 by bench/prod A/B
+			# testing. See claude-context/project_290hz_buzz.md in
+			# openrepeater-config for the full diagnostic chain.
+			$tx_array['TX_Port'.$curPort] += [
+				'CTCSS_FQ' => '7500',
+				'CTCSS_LEVEL' => '-60',
+			];
 		}
 	
 		$tx_array['TX_Port'.$curPort] += [
