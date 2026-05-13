@@ -76,6 +76,25 @@ class SVXLink_TCL {
 		$replace_repeater_up_id = '';
 		$new_file = preg_replace( $search_repeater_up_id, $replace_repeater_up_id, $new_file );
 
+		# Strip the voice-ID block from repeater_down.
+		#
+		# Upstream RepeaterLogic.tcl ALSO fires "spellWord $mycall" +
+		# "repeater" inside repeater_down whenever the repeater closes
+		# after user activity (any reason other than SQL_FLAP_SUP),
+		# throttled by min_time_between_ident (default 120 s). On a busy
+		# repeater this tacks a voice ID onto the end of user transmissions
+		# every ~2 min. The earlier strip in repeater_up covered the
+		# opening side; this strip covers the closing side. Both fixes are
+		# required — they're independent code paths in upstream 24.02 that
+		# were not present (or not enabled) in older svxlink versions.
+		#
+		# Strip just the three action lines, leaving the SQL_FLAP_SUP
+		# handler and the prev_ident throttle bookkeeping intact.
+		$search_repeater_down_id =
+			'/^  spellWord \$mycall;\s*\n  playMsg "Core" "repeater";\s*\n  playSilence 250;\s*\n/m';
+		$replace_repeater_down_id = '';
+		$new_file = preg_replace( $search_repeater_down_id, $replace_repeater_down_id, $new_file );
+
 		return $new_file;
 	}
 
