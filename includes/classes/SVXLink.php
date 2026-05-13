@@ -152,7 +152,7 @@ class SVXLink {
 			'SIGLEV_OFFSET' => '0',
 			'SIGLEV_OPEN_THRESH' => '30',
 			'SIGLEV_CLOSE_THRESH' => '10',
-			'DEEMPHASIS' => '1',
+			'DEEMPHASIS' => '0',
 			'PEAK_METER' => '0',
 			'DTMF_DEC_TYPE' => 'INTERNAL',
 			'DTMF_MUTING' => '1',
