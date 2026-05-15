@@ -171,10 +171,23 @@ class SVXLink {
 
 	public function build_tx($curPort) {
 		$audio_dev = explode("|", $this->portsArray[$curPort]['txAudioDev']);
-	
+
+		# Stutter-diagnostic instrumentation. When /etc/svxlink/use-tee-pcm
+		# exists, TX is routed through the ALSA tee_pcm slave defined in
+		# /etc/alsa/conf.d/50-tee-pcm.conf — that slave fans output to the
+		# primary codec (radio stays on-air) AND a snd-aloop subdevice that
+		# continuous-arecord reads for the always-on diagnostic ring. The
+		# sentinel-file approach keeps this fork from forcing tee_pcm on
+		# operators who don't have the snd-aloop chain set up. See
+		# docs/stutter-diagnostic-plan.md in openrepeater-config.
+		$tx_audio_dev = $audio_dev[0];
+		if (file_exists('/etc/svxlink/use-tee-pcm')) {
+			$tx_audio_dev = 'alsa:tee_pcm';
+		}
+
 		$tx_array['TX_Port'.$curPort] = [
 			'TYPE' => 'Local',
-			'AUDIO_DEV' => $audio_dev[0],
+			'AUDIO_DEV' => $tx_audio_dev,
 			'AUDIO_CHANNEL' => $audio_dev[1],
 			'PTT_TYPE' => 'GPIO',
 			'PTT_PORT' => 'GPIO',
